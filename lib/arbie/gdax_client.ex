@@ -11,7 +11,7 @@ defmodule Arbie.GDaxClient do
   def handle_frame({:text, json_encoded_message}, :state) do
     message = Poison.decode!(json_encoded_message)
     if message["type"] == "match" do
-      IO.puts "Arbie Price: #{message["price"]}"
+      IO.puts "GDax Price: #{message["price"]}"
     end
     {:ok, :state}
   end
