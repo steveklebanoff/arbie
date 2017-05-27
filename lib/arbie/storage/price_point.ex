@@ -1,4 +1,4 @@
-defmodule Arbie.PricePoint do
+defmodule Arbie.Storage.PricePoint do
   use Instream.Series
 
   series do

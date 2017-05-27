@@ -29,7 +29,7 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
-config :arbie, Arbie.InfluxConnection,
+config :arbie, Arbie.Storage.InfluxConnection,
   database:  "arbie_dev",
   host:      "localhost",
   pool:      [ max_overflow: 0, size: 1 ],
