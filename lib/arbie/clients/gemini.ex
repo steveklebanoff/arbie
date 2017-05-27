@@ -23,7 +23,7 @@ defmodule Arbie.Clients.Gemini do
   end
 
   defp store_price(price) do
-    IO.inspect(price)
+    IO.puts "Gemini Price: #{price}"
     Arbie.Storage.add_point("gemini", price)
   end
 end
