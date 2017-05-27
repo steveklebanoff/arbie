@@ -15,7 +15,7 @@ defmodule Arbie.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger],
+    [extra_applications: [:logger, :instream],
      mod: {Arbie.Application, []}]
   end
 
@@ -30,6 +30,7 @@ defmodule Arbie.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:websockex, "~> 0.1.3"},
-     {:poison, "~> 3.0"}]
+     {:poison, "~> 3.0"},
+     {:instream, "~> 0.15"}]
   end
 end
