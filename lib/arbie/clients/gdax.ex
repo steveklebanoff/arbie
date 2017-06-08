@@ -6,6 +6,7 @@ defmodule Arbie.Clients.GDax do
     {:ok, pid} = WebSockex.Client.start_link("wss://ws-feed.gdax.com/", __MODULE__, :state)
     message = Poison.encode!(%{type: "subscribe", product_ids: ["ETH-USD"]})
     WebSockex.Client.send_frame(pid, {:text, message})
+    {:ok, pid}
   end
 
   def handle_frame({:text, json_encoded_message}, :state) do

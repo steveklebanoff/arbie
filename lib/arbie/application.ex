@@ -12,7 +12,9 @@ defmodule Arbie.Application do
     children = [
       # Starts a worker by calling: Arbie.Worker.start_link(arg1, arg2, arg3)
       # worker(Arbie.Worker, [arg1, arg2, arg3]),
-       Arbie.Storage.InfluxConnection.child_spec 
+      Supervisor.Spec.worker(Arbie.Clients.Gemini, []),
+      Supervisor.Spec.worker(Arbie.Clients.GDax, []),
+      Arbie.Storage.InfluxConnection.child_spec
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
