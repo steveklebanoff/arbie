@@ -7,7 +7,8 @@ defmodule Arbie.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+     escript: escript()]
   end
 
   # Configuration for the OTP application
@@ -17,6 +18,10 @@ defmodule Arbie.Mixfile do
     # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:logger, :instream],
      mod: {Arbie.Application, []}]
+  end
+
+  def escript do
+    [main_module: Arbie.Script]
   end
 
   # Dependencies can be Hex packages:
