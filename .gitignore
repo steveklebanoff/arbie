@@ -21,3 +21,4 @@ erl_crash.dump
 # ignore script
 /arbie
 /rel
+/config/prod.exs
