@@ -36,6 +36,7 @@ defmodule Arbie.Mixfile do
   defp deps do
     [{:websockex, "~> 0.1.3"},
      {:poison, "~> 3.0"},
-     {:instream, "~> 0.15"}]
+     {:instream, "~> 0.15"},
+     {:distillery, "~> 1.0"}]
   end
 end
