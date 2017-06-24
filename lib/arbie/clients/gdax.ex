@@ -1,29 +1,25 @@
 defmodule Arbie.Clients.GDax do
-  use WebSockex.Client
-  require Logger
+  use JSONWebSocket
+  def message_timeout(), do: 1000
 
-  def start_link do
-    {:ok, pid} = WebSockex.Client.start_link("wss://ws-feed.gdax.com/", __MODULE__, :state)
+  def create_socket do
+    IO.puts "GDAX: Connecting"
+    socket = Socket.Web.connect! "ws-feed.gdax.com", secure: true
+
     message = Poison.encode!(%{type: "subscribe", product_ids: ["ETH-USD"]})
-    WebSockex.Client.send_frame(pid, {:text, message})
-    {:ok, pid}
+    Socket.Web.send!(socket, {:text, message})
+
+    IO.puts "GDAX: Connected"
+    socket
   end
 
-  def handle_frame({:text, json_encoded_message}, :state) do
-    message = Poison.decode!(json_encoded_message)
+  def process_message(raw_data) do
+    message = Poison.decode!(raw_data)
     if message["type"] == "match" do
-      {parsed_price, _} = Float.parse(message["price"])
-      store_price(parsed_price)
+      {price, _} = Float.parse(message["price"])
+      IO.puts "GDAX: Price #{price}"
+      Arbie.Storage.add_point("gdax", price)
+      price
     end
-    {:ok, :state}
-  end
-
-  def handle_disconnect(reason, state) do
-    super(reason, state)
-  end
-
-  defp store_price(price) do
-    IO.puts "GDax Price: #{price}"
-    Arbie.Storage.add_point("gdax", price)
   end
 end

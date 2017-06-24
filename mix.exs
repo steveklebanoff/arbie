@@ -34,9 +34,9 @@ defmodule Arbie.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:websockex, "~> 0.1.3"},
-     {:poison, "~> 3.0"},
+    [{:poison, "~> 3.0"},
      {:instream, "~> 0.15"},
-     {:distillery, "~> 1.0"}]
+     {:distillery, "~> 1.0"},
+     {:socket, "~> 0.3"}]
   end
 end

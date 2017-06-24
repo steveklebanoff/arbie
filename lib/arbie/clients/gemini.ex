@@ -1,29 +1,24 @@
 defmodule Arbie.Clients.Gemini do
-  use WebSockex.Client
-  require Logger
+  use JSONWebSocket
+  def message_timeout(), do: 10_000
 
-  def start_link do
-    WebSockex.Client.start_link("wss://api.gemini.com/v1/marketdata/ethusd", __MODULE__, :state)
+  def create_socket do
+    IO.puts "Gemini: Connecting"
+    socket = Socket.Web.connect! "api.gemini.com", path: "/v1/marketdata/ethusd", secure: true
+    IO.puts "Gemini: Connected"
+    socket
   end
 
-  def handle_frame({:text, json_encoded_message}, :state) do
-    message = Poison.decode!(json_encoded_message)
+  def process_message(raw_data) do
+    message = Poison.decode!(raw_data)
     if message["events"] do
       event = Enum.fetch!(message["events"], 0)
       if event["type"] == "trade" do
-        {parsed_price, _} = Float.parse(event["price"])
-        store_price(parsed_price)
+        {price, _} = Float.parse(event["price"])
+        IO.puts "Gemini Price: #{price}"
+        Arbie.Storage.add_point("gemini", price)
+        price
       end
     end
-    {:ok, :state}
-  end
-
-  def handle_disconnect(reason, state) do
-    super(reason, state)
-  end
-
-  defp store_price(price) do
-    IO.puts "Gemini Price: #{price}"
-    Arbie.Storage.add_point("gemini", price)
   end
 end
