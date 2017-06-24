@@ -3,7 +3,7 @@ defmodule JSONWebSocket do
   @doc "Function to create and connect to websocket"
   @callback create_socket() :: Socket.Web
   @doc "Function to receive raw message and store the value"
-  @callback process_message(string) :: boolean
+  @callback process_message(String.t) :: boolean
   @doc "How long to wait to timeout"
   @callback message_timeout() :: integer
 
@@ -35,11 +35,11 @@ defmodule JSONWebSocket do
       end
 
       def handle_cast(:next_message, state) do
-        new_price = nil
-        case state.socket |> Socket.Web.recv!([timeout: message_timeout()]) do
+        new_price = case state.socket |> Socket.Web.recv!([timeout: message_timeout()]) do
           {:text, data} ->
-            new_price = process_message(data)
+            found_price = process_message(data)
             GenServer.cast(self(), :next_message)
+            found_price
         end
         last = if new_price !== nil, do: new_price, else: state.last
         {:noreply, %{socket: state.socket, last: last}}
