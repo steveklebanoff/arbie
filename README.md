@@ -8,7 +8,5 @@ Currently supports GDax and Gemini ETH/USD prices.
 
 Thanks [redcap3000/crypto-socket](https://github.com/redcap3000/crypto-socket) for some good examples!
 
-# Using as long running script
-`mix escript.build`
-
-`mix escript.install`
+# Releasing
+`mix release`
