@@ -30,4 +30,6 @@ Run `iex -S mix` and you should see prices being stored.
 Thanks [redcap3000/crypto-socket](https://github.com/redcap3000/crypto-socket) for some good examples!
 
 # Releasing
-`MIX_ENV=prod mix release`
+- `mix release.init`
+- set up config in `rel/config.exs`
+- `mix release`
