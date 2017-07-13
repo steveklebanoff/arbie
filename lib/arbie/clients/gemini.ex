@@ -17,7 +17,6 @@ defmodule Arbie.Clients.Gemini do
       if event["type"] == "trade" do
         {price, _} = Float.parse(event["price"])
         IO.puts "Gemini Price: #{price}"
-        Arbie.Storage.add_point("gemini", price)
         price
       end
     end

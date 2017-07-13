@@ -19,7 +19,6 @@ defmodule Arbie.Clients.GDax do
     if message["type"] == "match" do
       {price, _} = Float.parse(message["price"])
       IO.puts "GDAX: Price #{price}"
-      Arbie.Storage.add_point("gdax", price)
       price
     end
   end
