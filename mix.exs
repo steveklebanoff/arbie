@@ -37,6 +37,7 @@ defmodule Arbie.Mixfile do
     [{:poison, "~> 3.0"},
      {:instream, "~> 0.15"},
      {:distillery, "~> 1.0"},
-     {:socket, "~> 0.3"}]
+     {:socket, "~> 0.3"},
+     {:timex, "~> 3.1"}]
   end
 end
