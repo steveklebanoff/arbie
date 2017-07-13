@@ -6,13 +6,15 @@ defmodule JSONWebSocket do
   @callback process_message(String.t) :: boolean
   @doc "How long to wait to timeout"
   @callback message_timeout() :: integer
+  @doc "Name to register module"
+  @callback module_name() :: atom
 
   defmacro __using__(_) do
     quote do
       @behaviour JSONWebSocket
 
       def start_link() do
-        GenServer.start_link(__MODULE__, %{})
+        GenServer.start_link(__MODULE__, %{}, [name: module_name()])
       end
 
       def init(state) do
