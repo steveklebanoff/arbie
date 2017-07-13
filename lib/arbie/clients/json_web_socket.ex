@@ -14,7 +14,10 @@ defmodule JSONWebSocket do
       @behaviour JSONWebSocket
 
       def start_link() do
-        GenServer.start_link(__MODULE__, %{socket: nil, last_price: nil}, [name: module_name()])
+        GenServer.start_link(
+          __MODULE__,
+          %{socket: nil, last_price: nil, last_price_time: nil}, [name: module_name()]
+        )
       end
 
       def init(state) do
@@ -33,7 +36,12 @@ defmodule JSONWebSocket do
       end
 
       def handle_call(:status, _from, state) do
-        staleness = Timex.diff(Timex.now, state.last_price_time, :seconds)
+        staleness = if state.last_price_time == nil do
+          nil
+        else
+          Timex.diff(Timex.now, state.last_price_time, :seconds)
+        end
+
         {
           :reply,
           %{last_price: state.last_price, staleness: staleness},
