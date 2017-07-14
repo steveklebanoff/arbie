@@ -30,11 +30,16 @@ defmodule Arbie.StorageTicker do
     gemini_price = gemini.last_price
     gemini_staleness = get_staleness(gemini.last_price_time)
 
+    percent_diff = Arbie.Calculations.percentage_difference(
+      [gdax_price, gemini_price]
+    )
+
     data = %{
       data |
       fields: %{data.fields |
         gdax_price: gdax_price, gdax_staleness_ms: gdax_staleness,
-        gemini_price: gemini_price, gemini_staleness_ms: gemini_staleness
+        gemini_price: gemini_price, gemini_staleness_ms: gemini_staleness,
+        percent_diff: percent_diff
       }
     }
 

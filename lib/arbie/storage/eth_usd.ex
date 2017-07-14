@@ -7,5 +7,6 @@ defmodule Arbie.Storage.EthUsd do
     field :gdax_staleness_ms
     field :gemini_price
     field :gemini_staleness_ms
+    field :percent_diff
   end
 end
