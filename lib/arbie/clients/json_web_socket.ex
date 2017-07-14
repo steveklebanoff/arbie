@@ -8,6 +8,10 @@ defmodule JSONWebSocket do
   @callback message_timeout() :: integer
   @doc "Name to register module"
   @callback module_name() :: atom
+  @doc "Currency pair"
+  @callback currency_pair() :: atom
+  @doc "Exchange Name"
+  @callback exchange() :: atom
 
   defmacro __using__(_) do
     quote do
@@ -36,17 +40,7 @@ defmodule JSONWebSocket do
       end
 
       def handle_call(:status, _from, state) do
-        staleness = if state.last_price_time == nil do
-          nil
-        else
-          Timex.diff(Timex.now, state.last_price_time, :seconds)
-        end
-
-        {
-          :reply,
-          %{last_price: state.last_price, staleness: staleness},
-          state
-        }
+        {:reply, state, state}
       end
 
       def handle_cast(:next_message, state) do
@@ -58,6 +52,11 @@ defmodule JSONWebSocket do
         end
         last_price = if new_price !== nil, do: new_price, else: state.last_price
         last_price_time = if new_price !== nil, do: Timex.now, else: state.last_price_time
+
+        if new_price !== nil do
+          Arbie.PriceTracker.track(currency_pair(), exchange(), last_price, last_price_time)
+        end
+
         {:noreply, %{socket: state.socket, last_price: last_price, last_price_time: last_price_time}}
       end
 

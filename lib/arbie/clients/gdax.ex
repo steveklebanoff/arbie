@@ -2,6 +2,8 @@ defmodule Arbie.Clients.GDax do
   use JSONWebSocket
   def message_timeout(), do: 1000
   def module_name(), do: GDaxClient
+  def currency_pair(), do: :eth_usd
+  def exchange(), do: :gdax
 
   def create_socket do
     IO.puts "GDAX: Connecting"

@@ -25,7 +25,12 @@ defmodule Arbie.Application do
 
     Supervisor.start_link(
       [Supervisor.Spec.worker(Arbie.StorageTicker, [])],
-      [strategy: :one_for_one, name: Arbie.TickSupervisor, max_restarts: 2, max_seconds: 1]
+      [strategy: :one_for_one, name: Arbie.TickSupervisor, max_restarts: 5, max_seconds: 1]
+    )
+
+    Supervisor.start_link(
+      [Supervisor.Spec.worker(Arbie.PriceTracker, [])],
+      [strategy: :one_for_one, name: Arbie.PriceTrackerSupervisor, max_restarts: 5, max_seconds: 1]
     )
 
 

@@ -2,6 +2,8 @@ defmodule Arbie.Clients.Gemini do
   use JSONWebSocket
   def message_timeout(), do: 10_000
   def module_name(), do: GeminiClient
+  def currency_pair(), do: :eth_usd
+  def exchange(), do: :gemini
 
   def create_socket do
     IO.puts "Gemini: Connecting"
