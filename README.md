@@ -6,7 +6,7 @@ Currently supports GDax and Gemini ETH/USD prices.
 
 Generates data every 500ms in the following format:
 
-``
+```
 name: eth_usd
 time                           gdax_price gdax_staleness_ms gemini_price gemini_staleness_ms percent_diff
 2017-07-14T06:38:36.238413431Z 200.99     17265             201.7        1917                0.3532514055425541
@@ -18,6 +18,7 @@ time                           gdax_price gdax_staleness_ms gemini_price gemini_
 ```
 
 `staleness` represents the ms since the data was reported from the exchange
+
 `percent_diff` shows the % difference between the two exchanges
 
 # Setting up locally
